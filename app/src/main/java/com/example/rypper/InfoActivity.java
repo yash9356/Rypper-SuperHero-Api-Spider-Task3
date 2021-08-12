@@ -2,7 +2,11 @@ package com.example.rypper;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+
+
 import android.os.Bundle;
+
+import android.transition.TransitionInflater;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,6 +25,8 @@ import org.json.JSONObject;
 
 public class InfoActivity extends AppCompatActivity {
 
+
+    private static InfoActivity instance = null;
     ImageView imageView;
     String gender1;
     String race1;
@@ -33,8 +39,12 @@ public class InfoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_info);
+        imageView=findViewById(R.id.image_view);
+        getWindow().setSharedElementEnterTransition(TransitionInflater.from(this).inflateTransition(R.transition.transition_image));
+        imageView.setTransitionName("image_view");
+        String ImgUrl=getIntent().getStringExtra("ImgUrl");
+        Picasso.with(InfoActivity.this).load(ImgUrl).fit().centerInside().into(imageView);
 
-        imageView=findViewById(R.id.ImgHero);
         heroname =findViewById(R.id.HeroName);
         herogender=findViewById(R.id.HeroGender);
         herorace=findViewById(R.id.HeroRace);
@@ -68,7 +78,7 @@ public class InfoActivity extends AppCompatActivity {
                         String SuperHero = Heroes.getString("name");
 
                         JSONObject imglink =Heroes.getJSONObject("images");
-                        String imgurl=imglink.getString("md");
+                        //String imgurl=imglink.getString("md");
                         JSONObject powerstat =Heroes.getJSONObject("powerstats");
                         String power=powerstat.getString("power");
                         String intelligence=powerstat.getString("intelligence");
@@ -102,7 +112,7 @@ public class InfoActivity extends AppCompatActivity {
                         String firstAppearance=biography.getString("firstAppearance");
 
                         if (id1 == id) {
-                            Picasso.with(InfoActivity.this).load(imgurl).fit().centerInside().into(imageView);
+//                            Picasso.with(InfoActivity.this).load(imgurl).fit().centerInside().into(imageView);
                             heroname.setText(SuperHero);
                             heropublisher.setText(publisher);
                             heroappearence.setText(firstAppearance);
@@ -152,4 +162,6 @@ public class InfoActivity extends AppCompatActivity {
         mRequestQueue.add(request);
 
     }
+
+
 }

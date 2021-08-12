@@ -61,6 +61,7 @@
             android:layout_height="430dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
+            android:transitionName="example_transition"
             android:src="@mipmap/ic_launcher" />
 
 

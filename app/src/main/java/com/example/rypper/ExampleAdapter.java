@@ -1,5 +1,6 @@
 package com.example.rypper;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -9,17 +10,20 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+
+import androidx.core.app.ActivityOptionsCompat;
+import androidx.core.util.Pair;
+import androidx.core.view.ViewCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.ArrayList;
 
-public class ExampleAdapter extends RecyclerView.Adapter<ExampleAdapter.ExampleViewHolder> {
+public class ExampleAdapter extends RecyclerView.Adapter<ExampleAdapter.ExampleViewHolder>{
     private Context mContext;
     private ArrayList<Exampleitem> mExampleList;
+
 
     public ExampleAdapter(Context context,ArrayList<Exampleitem> exampleList){
         mContext= context;
@@ -46,12 +50,22 @@ public class ExampleAdapter extends RecyclerView.Adapter<ExampleAdapter.ExampleV
         holder.mTextid.setText(Integer.toString(id));
         Picasso.with(mContext).load(imageUrl).fit().centerInside().into(holder.mImageView);
         holder.mImageView.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
-                Intent intent =new Intent(mContext,InfoActivity.class);
-                intent.putExtra("ID",id);
+//                Intent intent =new Intent(mContext,InfoActivity.class);
+//                ActivityOptionsCompat options =ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) mContext,(View) holder.mImageView,"image_view");
+//                intent.putExtra("ID",id);
+//
+//                mContext.startActivity(intent,options.toBundle());
 
-                mContext.startActivity(intent);
+                Intent intent = new Intent(mContext, InfoActivity.class);
+                intent.putExtra("ID",id);
+                intent.putExtra("ImgUrl",imageUrl);
+                Pair<View, String> p1 = Pair.create((View)holder.mImageView, "image_view");
+                ActivityOptionsCompat options = ActivityOptionsCompat.
+                        makeSceneTransitionAnimation((Activity) mContext, p1);
+                mContext.startActivity(intent,options.toBundle());
             }
         });
 
@@ -64,10 +78,11 @@ public class ExampleAdapter extends RecyclerView.Adapter<ExampleAdapter.ExampleV
     }
 
     public class ExampleViewHolder extends RecyclerView.ViewHolder{
-        public ImageView mImageView;
+
         public TextView mTextViewCreator;
         public TextView mTextViewLikes;
         public TextView mTextid;
+        public ImageView mImageView;
 
         public ExampleViewHolder(@NonNull @org.jetbrains.annotations.NotNull View itemView) {
             super(itemView);

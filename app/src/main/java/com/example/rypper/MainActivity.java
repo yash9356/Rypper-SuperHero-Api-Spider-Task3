@@ -4,13 +4,16 @@ package com.example.rypper;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
+import android.transition.Explode;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -57,6 +60,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //                WindowManager.LayoutParams.FLAG_FULLSCREEN);
 //        getSupportActionBar().hide();
         setContentView(R.layout.activity_main);
+
 
         Toolbar toolbar=findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
