@@ -62,7 +62,7 @@ public class ExampleAdapter extends RecyclerView.Adapter<ExampleAdapter.ExampleV
                 Intent intent = new Intent(mContext, InfoActivity.class);
                 intent.putExtra("ID",id);
                 intent.putExtra("ImgUrl",imageUrl);
-                Pair<View, String> p1 = Pair.create((View)holder.mImageView, "image_view");
+                Pair<View, String> p1 = Pair.create((View)holder.mImageView, "example_transition");
                 ActivityOptionsCompat options = ActivityOptionsCompat.
                         makeSceneTransitionAnimation((Activity) mContext, p1);
                 mContext.startActivity(intent,options.toBundle());

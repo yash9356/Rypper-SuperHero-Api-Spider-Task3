@@ -40,10 +40,11 @@ public class InfoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_info);
         imageView=findViewById(R.id.image_view);
-        getWindow().setSharedElementEnterTransition(TransitionInflater.from(this).inflateTransition(R.transition.transition_image));
-        imageView.setTransitionName("image_view");
         String ImgUrl=getIntent().getStringExtra("ImgUrl");
         Picasso.with(InfoActivity.this).load(ImgUrl).fit().centerInside().into(imageView);
+        getWindow().setSharedElementEnterTransition(TransitionInflater.from(this).inflateTransition(R.transition.transition_image));
+        imageView.setTransitionName("example_transition");
+
 
         heroname =findViewById(R.id.HeroName);
         herogender=findViewById(R.id.HeroGender);
