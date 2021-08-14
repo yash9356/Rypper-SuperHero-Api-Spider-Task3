@@ -53,11 +53,6 @@ public class ExampleAdapter extends RecyclerView.Adapter<ExampleAdapter.ExampleV
 
             @Override
             public void onClick(View v) {
-//                Intent intent =new Intent(mContext,InfoActivity.class);
-//                ActivityOptionsCompat options =ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) mContext,(View) holder.mImageView,"image_view");
-//                intent.putExtra("ID",id);
-//
-//                mContext.startActivity(intent,options.toBundle());
 
                 Intent intent = new Intent(mContext, InfoActivity.class);
                 intent.putExtra("ID",id);
