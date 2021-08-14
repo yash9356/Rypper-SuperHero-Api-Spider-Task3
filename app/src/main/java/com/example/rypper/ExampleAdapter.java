@@ -41,11 +41,11 @@ public class ExampleAdapter extends RecyclerView.Adapter<ExampleAdapter.ExampleV
         Exampleitem currentItem= mExampleList.get(position);
 
         String imageUrl= currentItem.getImageUrl();
-        String creatorName =currentItem.getCreator();
+        String CharacterName =currentItem.getCreator();
         int power =currentItem.getPowerCount();
         int id=currentItem.getMid();
 
-        holder.mTextViewCreator.setText(creatorName);
+        holder.mTextViewCreator.setText(CharacterName);
         holder.mTextViewLikes.setText("Power: "+power);
         holder.mTextid.setText(Integer.toString(id));
         Picasso.with(mContext).load(imageUrl).fit().centerInside().into(holder.mImageView);
@@ -61,6 +61,7 @@ public class ExampleAdapter extends RecyclerView.Adapter<ExampleAdapter.ExampleV
 
                 Intent intent = new Intent(mContext, InfoActivity.class);
                 intent.putExtra("ID",id);
+                intent.putExtra("HeroName",CharacterName);
                 intent.putExtra("ImgUrl",imageUrl);
                 Pair<View, String> p1 = Pair.create((View)holder.mImageView, "example_transition");
                 ActivityOptionsCompat options = ActivityOptionsCompat.

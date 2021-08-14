@@ -3,10 +3,15 @@ package com.example.rypper;
 import androidx.appcompat.app.AppCompatActivity;
 
 
-
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 
+import android.provider.MediaStore;
 import android.transition.TransitionInflater;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,16 +28,19 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
 public class InfoActivity extends AppCompatActivity {
 
 
     private static InfoActivity instance = null;
-    ImageView imageView;
+    ImageView imageView,ShareBtn;
     String gender1;
     String race1;
     String FullName;
+    String Info_full_name,Info_power,Info_combat,Info_strength,Info_alignment,Info_publisher,Info_connections;
     TextView heroname,herogender,herorace,herofullname,heropublisher,heroconnection,heroappearence,heropower,herocombat,herointelligence,herospeed,herostrength,heroalignment;
-    private RequestQueue mRequestQueue;
+    public RequestQueue mRequestQueue;
     int id1;
 
     @Override
@@ -42,8 +50,11 @@ public class InfoActivity extends AppCompatActivity {
         imageView=findViewById(R.id.image_view);
         String ImgUrl=getIntent().getStringExtra("ImgUrl");
         Picasso.with(InfoActivity.this).load(ImgUrl).fit().centerInside().into(imageView);
+        String Character_Name =getIntent().getStringExtra("HeroName");
+        id1=getIntent().getIntExtra("ID",0);
         getWindow().setSharedElementEnterTransition(TransitionInflater.from(this).inflateTransition(R.transition.transition_image));
         imageView.setTransitionName("example_transition");
+
 
 
         heroname =findViewById(R.id.HeroName);
@@ -59,13 +70,45 @@ public class InfoActivity extends AppCompatActivity {
         herostrength=findViewById(R.id.StrengthTxt);
         herofullname=findViewById(R.id.FullName);
         heroalignment=findViewById(R.id.Heroalignment);
+
+
+
+        ArrayList<String> Hero_Info =new ArrayList<String>() ;
         mRequestQueue= Volley.newRequestQueue(this);
-        id1=getIntent().getIntExtra("ID",0);
-        parseJson(id1,imageView);
+        ArrayList<String> Hero_Info1=parseJson(id1,imageView,Hero_Info);
+
+
+
+
+        ShareBtn=findViewById(R.id.Share_btn);
+
+        ShareBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Info_full_name= Hero_Info1.get(0);
+                Info_power= Hero_Info1.get(1);
+                Info_strength= Hero_Info1.get(2);
+                Info_combat=Hero_Info.get(3);
+                Info_publisher= Hero_Info1.get(4);
+                Info_alignment= Hero_Info1.get(5);
+                Info_connections= Hero_Info1.get(6);
+                BitmapDrawable drawable= (BitmapDrawable) imageView.getDrawable();
+                Bitmap bitmap= drawable.getBitmap();
+                String bitmapPath = MediaStore.Images.Media.insertImage(getContentResolver(),bitmap,"SuperHero Api","SuperHero Image");
+                Uri uri = Uri.parse(bitmapPath);
+                Intent intent =new Intent(Intent.ACTION_SEND);
+                intent.setType("image/png");
+                intent.putExtra(Intent.EXTRA_STREAM,uri);
+
+                intent.putExtra(Intent.EXTRA_TEXT,"Character Name :"+Character_Name+", Full_Name:"+Info_full_name+", Power :"+Info_power+", Strength :"+Info_strength+", Publisher :"+Info_publisher+", Character alignment :"+Info_alignment+", Connections:"+Info_connections);
+                startActivity(Intent.createChooser(intent,"Share"));
+            }
+        });
+
 
     }
 
-    public void parseJson(int id1,ImageView imageView){
+    public ArrayList<String> parseJson(int id1,ImageView imageView,ArrayList<String> Hero_Info){
 
         String url="https://akabab.github.io/superhero-api/api/all.json";
 
@@ -125,6 +168,14 @@ public class InfoActivity extends AppCompatActivity {
                             herointelligence.setText(intelligence);
                             heroconnection.setText(groupconnection);
 
+                            Hero_Info.add(FullName);
+                            Hero_Info.add(power);
+                            Hero_Info.add(strength);
+                            Hero_Info.add(combat);
+                            Hero_Info.add(publisher);
+                            Hero_Info.add(alignment);
+                            Hero_Info.add(groupconnection);
+
 
                             try {
                                 herogender.setText(gender1);
@@ -162,7 +213,10 @@ public class InfoActivity extends AppCompatActivity {
         });
         mRequestQueue.add(request);
 
+        return Hero_Info;
+
     }
+
 
 
 }
