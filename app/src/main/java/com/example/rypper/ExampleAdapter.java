@@ -3,11 +3,13 @@ package com.example.rypper;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -49,6 +51,13 @@ public class ExampleAdapter extends RecyclerView.Adapter<ExampleAdapter.ExampleV
         holder.mTextViewLikes.setText("Power: "+power);
         holder.mTextid.setText(Integer.toString(id));
         Picasso.with(mContext).load(imageUrl).fit().centerInside().into(holder.mImageView);
+        holder.mStarHero.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(MainActivity.getInstance(), "added to favorite", Toast.LENGTH_SHORT).show();
+                MainActivity.getInstance().SaveFavHero(id,CharacterName,power,imageUrl);
+            }
+        });
         holder.mImageView.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -78,12 +87,13 @@ public class ExampleAdapter extends RecyclerView.Adapter<ExampleAdapter.ExampleV
         public TextView mTextViewCreator;
         public TextView mTextViewLikes;
         public TextView mTextid;
-        public ImageView mImageView;
+        public ImageView mImageView,mStarHero;
 
         public ExampleViewHolder(@NonNull @org.jetbrains.annotations.NotNull View itemView) {
             super(itemView);
             mTextid=itemView.findViewById(R.id.id);
             mImageView = itemView.findViewById(R.id.image_view);
+            mStarHero=itemView.findViewById(R.id.StarHero);
             mTextViewCreator =itemView.findViewById(R.id.text_view_creator);
             mTextViewLikes = itemView.findViewById(R.id.text_view_likes);
         }

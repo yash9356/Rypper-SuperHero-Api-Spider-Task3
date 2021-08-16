@@ -42,10 +42,11 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+    private static MainActivity instance;
     private DrawerLayout drawer;
     private RecyclerView mRecycleView;
     private ExampleAdapter mEampleAdapter;
-    private ArrayList<Exampleitem> mExampleList;
+    private ArrayList<Exampleitem> mExampleList,mExampleFavoriteList;
     private RequestQueue mRequestQueue;
     Boolean isScrolling=false;
     int currrentItem,totalItem,scrollOutItem;
@@ -60,6 +61,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //                WindowManager.LayoutParams.FLAG_FULLSCREEN);
 //        getSupportActionBar().hide();
         setContentView(R.layout.activity_main);
+        instance=this;
 
 
         Toolbar toolbar=findViewById(R.id.toolbar);
@@ -79,6 +81,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mRecycleView.setLayoutManager(manager);
 
         mExampleList= new ArrayList<>();
+        mExampleFavoriteList= new ArrayList<>();
         mRequestQueue= Volley.newRequestQueue(this);
         parseJSON();
         searchbtn.setOnClickListener(new View.OnClickListener() {
@@ -123,12 +126,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 totalItem=manager.getItemCount();
                 scrollOutItem=manager.findFirstVisibleItemPosition();
 
-                if(isScrolling && (currrentItem + scrollOutItem == 5)){
+                if(isScrolling && (currrentItem + scrollOutItem == 10)){
                     manager=new LinearLayoutManager(MainActivity.this){
-                        @Override
-                        public boolean canScrollVertically(){
-                            return false;
-                        }
                     };
 
                     isScrolling =false;
@@ -145,10 +144,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void run() {
                 manager=new LinearLayoutManager(MainActivity.this){
-                    @Override
-                    public boolean canScrollVertically(){
-                        return true;
-                    }
                 };
             }
         },5000);
@@ -379,9 +374,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             searchComic("DC Comics");
             Toast.makeText(getApplicationContext(), "DC Comics Characters", Toast.LENGTH_SHORT).show();
         }
+        if(id==R.id.favorite){
+            LoadFavHeroList();
+        }
         //This is for closing the drawer after acting on it
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+    public static MainActivity getInstance() {
+        return instance;
+    }
+
+    public void SaveFavHero(int id,String name,int power,String imgUrl){
+        mExampleFavoriteList.add(new Exampleitem(imgUrl,name,power,id));
+    }
+    public void LoadFavHeroList(){
+        Toast.makeText(this,"Favorite Character List",Toast.LENGTH_SHORT).show();
+        mEampleAdapter =new ExampleAdapter(MainActivity.this,mExampleFavoriteList);
+        mRecycleView.setAdapter(mEampleAdapter);
     }
     public static String capitalizeWord(String str){
         String words[]=str.split("\\s");
