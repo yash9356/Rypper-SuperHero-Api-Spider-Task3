@@ -35,10 +35,10 @@
             app:layout_constraintStart_toStartOf="parent">
 
             <ImageButton
-                android:id="@+id/back"
+                android:id="@+id/searchbtn"
                 android:layout_width="50dp"
                 android:layout_height="55dp"
-                app:srcCompat="@drawable/ic_home" />
+                app:srcCompat="?android:attr/actionModeWebSearchDrawable" />
 
             <EditText
                 android:id="@+id/editTextHeroName"
@@ -53,10 +53,10 @@
                 android:textColorHint="#FDFCFC" />
 
             <ImageButton
-                android:id="@+id/searchbtn"
+                android:id="@+id/back"
                 android:layout_width="50dp"
                 android:layout_height="55dp"
-                app:srcCompat="?android:attr/actionModeWebSearchDrawable" />
+                app:srcCompat="@android:drawable/ic_menu_close_clear_cancel" />
 
         </LinearLayout>
 

@@ -47,7 +47,7 @@
         <View
             android:id="@+id/view8"
             android:layout_width="match_parent"
-            android:layout_height="80dp"
+            android:layout_height="65dp"
             android:background="@drawable/background13" />
 
         <TextView
@@ -57,8 +57,8 @@
             android:gravity="center"
             android:text="Rypper"
             android:textColor="@color/white"
-            android:textSize="40dp"
-            android:textStyle="italic" />
+            android:textSize="35dp"
+            android:textStyle="normal" />
 
     </androidx.cardview.widget.CardView>
 

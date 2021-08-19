@@ -377,6 +377,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if(id==R.id.favorite){
             LoadFavHeroList();
         }
+        if(id==R.id.heroHome){
+            mExampleList.clear();
+            mEampleAdapter.notifyDataSetChanged();
+            parseJSON();
+        }
         //This is for closing the drawer after acting on it
         drawer.closeDrawer(GravityCompat.START);
         return true;
@@ -388,8 +393,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void SaveFavHero(int id,String name,int power,String imgUrl){
         mExampleFavoriteList.add(new Exampleitem(imgUrl,name,power,id));
     }
+    public boolean CheckSelected (int id4){
+        boolean check=false;
+        try {
+            for(int i=0;i<=mExampleFavoriteList.size();i++){
+                if(mExampleFavoriteList.get(i).getMid()==id4){
+                    check= true;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return check;
+    }
     public void LoadFavHeroList(){
         Toast.makeText(this,"Favorite Character List",Toast.LENGTH_SHORT).show();
+        if (mExampleFavoriteList.isEmpty()){
+            Toast.makeText(this,"Empty",Toast.LENGTH_SHORT).show();
+        }
         mEampleAdapter =new ExampleAdapter(MainActivity.this,mExampleFavoriteList);
         mRecycleView.setAdapter(mEampleAdapter);
     }

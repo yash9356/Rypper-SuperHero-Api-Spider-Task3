@@ -46,7 +46,12 @@ public class ExampleAdapter extends RecyclerView.Adapter<ExampleAdapter.ExampleV
         String CharacterName =currentItem.getCreator();
         int power =currentItem.getPowerCount();
         int id=currentItem.getMid();
-
+        boolean checked=MainActivity.getInstance().CheckSelected(id);
+        if(checked){
+            holder.mStarHero1.setBackgroundResource(R.drawable.star4);
+        }else {
+            holder.mStarHero1.setBackgroundResource(R.drawable.emptyimg);
+        }
         holder.mTextViewCreator.setText(CharacterName);
         holder.mTextViewLikes.setText("Power: "+power);
         holder.mTextid.setText(Integer.toString(id));
@@ -56,6 +61,9 @@ public class ExampleAdapter extends RecyclerView.Adapter<ExampleAdapter.ExampleV
             public void onClick(View v) {
                 Toast.makeText(MainActivity.getInstance(), "added to favorite", Toast.LENGTH_SHORT).show();
                 MainActivity.getInstance().SaveFavHero(id,CharacterName,power,imageUrl);
+                holder.mStarHero1.setBackgroundResource(R.drawable.star4);
+
+
             }
         });
         holder.mImageView.setOnClickListener(new View.OnClickListener() {
@@ -87,7 +95,7 @@ public class ExampleAdapter extends RecyclerView.Adapter<ExampleAdapter.ExampleV
         public TextView mTextViewCreator;
         public TextView mTextViewLikes;
         public TextView mTextid;
-        public ImageView mImageView,mStarHero;
+        public ImageView mImageView,mStarHero,mStarHero1;
 
         public ExampleViewHolder(@NonNull @org.jetbrains.annotations.NotNull View itemView) {
             super(itemView);
@@ -96,6 +104,7 @@ public class ExampleAdapter extends RecyclerView.Adapter<ExampleAdapter.ExampleV
             mStarHero=itemView.findViewById(R.id.StarHero);
             mTextViewCreator =itemView.findViewById(R.id.text_view_creator);
             mTextViewLikes = itemView.findViewById(R.id.text_view_likes);
+            mStarHero1=itemView.findViewById(R.id.StarHero2);
         }
     }
 }
